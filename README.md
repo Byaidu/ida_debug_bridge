@@ -4,7 +4,7 @@ IDA Debugger Module working with third-party Backends (GDB, Tenet, etc.) via TCP
 
 ## Screenshot
 
-
+<img width="960" src="https://user-images.githubusercontent.com/21212051/139926345-f979a0d9-a7ac-4ed7-a8ac-1a152a215b21.png">
 
 ## Installation
 
@@ -36,26 +36,7 @@ def server_loop(self,t):
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.bind((host, port))
     s.listen(1)
-    REGISTERS = \
-    [
-        "RAX",
-        "RBX",
-        "RCX",
-        "RDX",
-        "RSI",
-        "RDI",
-        "RBP",
-        "RSP",
-        "RIP",
-        "R8",
-        "R9",
-        "R10",
-        "R11",
-        "R12",
-        "R13",
-        "R14",
-        "R15",
-    ]
+    REGISTERS = ["RAX","RBX","RCX","RDX","RSI","RDI","RBP","RSP","RIP","R8","R9","R10","R11","R12","R13","R14","R15"]
     while(True):
         client_socket, addr = s.accept()
         while True:
