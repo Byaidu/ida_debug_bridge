@@ -27,6 +27,8 @@ Then follow the steps below.
 
 Next, you can explore the Time Travel Debugging experience seamlessly integrated with IDA.
 
+Insert the following code to `context.py`.
+
 ```python
 def server_loop(self,t):
     print(self,t)
@@ -74,3 +76,9 @@ import _thread
 _thread.start_new_thread(self.server_loop,(self,))
 ```
 
+Insert the following code to `reader.py`.
+
+```python
+import ida_dbg
+ida_dbg.continue_process()
+```
