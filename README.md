@@ -8,7 +8,7 @@ IDA Debugger Module working with third-party Backends (GDB, Tenet, etc.) via TCP
 
 ## Installation
 
-Since this is only a project for Proof of Concept, only the original code of the plug-in is provided.
+Since this is only a project for Proof of Concept, only the original code of the plugin is provided.
 
 In order to build this plugin, you need to copy the content of this project and the source code of `jsoncpp` to the `dbg` folder of the IDA SDK. Edit the rules of the `makefile`. Then follow the instructions of `install_make.txt` in IDA SDK to make.
 
