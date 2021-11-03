@@ -1,6 +1,6 @@
 # IDA Debug Bridge
 
-IDA Debugger Module working with third-party Backends (GDB, Tenet, etc.) via TCP
+IDA Debugger Module to Synchronize Memory and Registers with third-party Backends (GDB, Tenet, etc.)
 
 ## Screenshot
 
@@ -8,7 +8,7 @@ IDA Debugger Module working with third-party Backends (GDB, Tenet, etc.) via TCP
 
 ## Installation
 
-Since this is only a project for Proof of Concept, only the original code of the plugin is provided.
+Since this is only a project for Proof of Concept, only the source code of the plugin is provided.
 
 In order to build this plugin, you need to copy the content of this project and the source code of `jsoncpp` to the `dbg` folder of the IDA SDK. Edit the rules of the `makefile`. Then follow the instructions of `install_make.txt` in IDA SDK to make.
 
@@ -25,9 +25,9 @@ Then follow the steps below.
 3. Start a debugging session
 4. Load Tenet trace file
 
-Next, you can explore the Time Travel Debugging experience seamlessly integrated with IDA.
+Now, you can explore the Time Travel Debugging experience seamlessly integrated with IDA.
 
-Insert the following code to `context.py`.
+Insert the following code to `__init__()` inside `context.py`.
 
 ```python
 def server_loop(self,t):
@@ -76,9 +76,27 @@ import _thread
 _thread.start_new_thread(self.server_loop,(self,))
 ```
 
-Insert the following code to `reader.py`.
+Insert the following code to `seek()` inside `reader.py`.
 
 ```python
 import ida_dbg
 ida_dbg.continue_process()
+```
+
+## Protocol
+
+### Synchronize Registers
+
+Forwarded from IDA's dbg_read_registers API.
+
+```json
+{"func":"dbg_read_registers"}
+```
+
+### Synchronize Memory
+
+Forwarded from IDA's dbg_read_memory API. Need to provide the address and length of the memory area.
+
+```json
+{"ea":140724733087136,"func":"dbg_read_memory","len":8}
 ```
