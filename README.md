@@ -8,6 +8,8 @@ IDA Debugger Module to Synchronize Memory and Registers with third-party Backend
 
 ## Installation
 
+This plugin currently only supports debugging sessions for PE and ELF programs on x86 or AMD64 architecture.
+
 Since this is only a project for Proof of Concept, only the source code of the plugin is provided.
 
 In order to build this plugin, you need to copy the content of this project and the source code of `jsoncpp` to the `dbg` folder of the IDA SDK. Edit the rules of the `makefile`. Then follow the instructions of `install_make.txt` in IDA SDK to make.
