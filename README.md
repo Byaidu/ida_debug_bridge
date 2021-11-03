@@ -41,7 +41,7 @@ def server_loop(self,t):
     s.bind((host, port))
     s.listen(1)
     
-    if disassembler[self].is_64bit():
+    if self.arch.POINTER_SIZE == 8:
         REGISTERS = ["RAX","RBX","RCX","RDX","RSI","RDI","RBP","RSP","RIP","R8","R9","R10","R11","R12","R13","R14","R15"]
     else:
         REGISTERS = ["EAX","EBX","ECX","EDX","ESI","EDI","EBP","ESP","EIP"]
