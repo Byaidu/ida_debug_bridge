@@ -46,7 +46,7 @@ def server_loop(self,t):
         while True:
             data = client_socket.recv(1024).decode('utf-8')
             if not data: break
-            print('TENET RECV: ' + data)
+            print('TENET RECV: ',data)
             req = json.loads(data)
             if (req['func'] == 'dbg_read_memory'): # get_memory
                 print(req['func'],req['ea'],req['len'])
@@ -59,7 +59,7 @@ def server_loop(self,t):
                         output.append("00")
                 
                 ret = ''.join(output)
-                print(ret)
+                print('TENET SEND: ',ret)
                 client_socket.send(json.dumps({'ret': ret}).encode('utf-8'))
             
             if (req['func'] == 'dbg_read_registers'): # get_registers
@@ -68,8 +68,7 @@ def server_loop(self,t):
                 ret = []
                 for i in REGISTERS:
                     ret.append(reg[i])
-                ret.extend([0]*7)
-                print(ret)
+                print('TENET SEND: ',ret)
                 client_socket.send(json.dumps({'ret': ret}).encode('utf-8'))
                 
         client_socket.close()
