@@ -53,7 +53,7 @@ def server_loop(self,t):
             if not data: break
             print('TENET RECV: ',data)
             req = json.loads(data)
-            if (req['func'] == 'dbg_read_memory'): # get_memory
+            if (req['func'] == 'dbg_read_memory'):
                 print(req['func'],req['ea'],req['len'])
                 mem = self.reader.get_memory(req['ea'],req['len'])
                 output = []
@@ -67,7 +67,7 @@ def server_loop(self,t):
                 print('TENET SEND: ',ret)
                 client_socket.send(json.dumps({'ret': ret}).encode('utf-8'))
             
-            if (req['func'] == 'dbg_read_registers'): # get_registers
+            if (req['func'] == 'dbg_read_registers'):
                 print(req['func'])
                 reg = self.reader.get_registers()
                 ret = []
@@ -90,11 +90,24 @@ import ida_dbg
 ida_dbg.continue_process()
 ```
 
+## Troubleshoot
+
+It is recommended to modify `get_instruction_addresses()` inside `ida_api.py` to workaround the buggy IDA SDK.
+
+```python
+if (self.is_64bit()):
+    if seg.sclass - 1 != ida_segment.SEG_CODE:
+        continue
+else:
+    if seg.sclass != ida_segment.SEG_CODE:
+        continue
+```
+
 ## Protocol
 
 ### Synchronize Registers
 
-Forwarded from IDA's dbg_read_registers API.
+Forwarded from IDA's `dbg_read_registers()` API.
 
 ```json
 {"func":"dbg_read_registers"}
@@ -102,7 +115,7 @@ Forwarded from IDA's dbg_read_registers API.
 
 ### Synchronize Memory
 
-Forwarded from IDA's dbg_read_memory API. Need to provide the address and length of the memory area.
+Forwarded from IDA's `dbg_read_memory()` API. The parameters include the address and length of the memory area.
 
 ```json
 {"ea":140724733087136,"func":"dbg_read_memory","len":8}
