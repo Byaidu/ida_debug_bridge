@@ -33,7 +33,6 @@ Insert the following code to `__init__()` inside `context.py`.
 
 ```python
 def server_loop(self,t):
-    print(self,t)
     import json, socket
     host = '127.0.0.1'
     port = 5000
@@ -54,7 +53,6 @@ def server_loop(self,t):
             print('TENET RECV: ',data)
             req = json.loads(data)
             if (req['func'] == 'dbg_read_memory'):
-                print(req['func'],req['ea'],req['len'])
                 mem = self.reader.get_memory(req['ea'],req['len'])
                 output = []
                 for i in range(req['len']):
@@ -68,7 +66,6 @@ def server_loop(self,t):
                 client_socket.send(json.dumps({'ret': ret}).encode('utf-8'))
             
             if (req['func'] == 'dbg_read_registers'):
-                print(req['func'])
                 reg = self.reader.get_registers()
                 ret = []
                 for i in REGISTERS:
