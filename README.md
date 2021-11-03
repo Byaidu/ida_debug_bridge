@@ -40,7 +40,12 @@ def server_loop(self,t):
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.bind((host, port))
     s.listen(1)
-    REGISTERS = ["RAX","RBX","RCX","RDX","RSI","RDI","RBP","RSP","RIP","R8","R9","R10","R11","R12","R13","R14","R15"]
+    
+    if disassembler[self].is_64bit():
+        REGISTERS = ["RAX","RBX","RCX","RDX","RSI","RDI","RBP","RSP","RIP","R8","R9","R10","R11","R12","R13","R14","R15"]
+    else:
+        REGISTERS = ["EAX","EBX","ECX","EDX","ESI","EDI","EBP","ESP","EIP"]
+        
     while(True):
         client_socket, addr = s.accept()
         while True:
@@ -57,7 +62,7 @@ def server_loop(self,t):
                         output.append("%02X" % mem.data[i])
                     else:
                         output.append("00")
-                
+                        
                 ret = ''.join(output)
                 print('TENET SEND: ',ret)
                 client_socket.send(json.dumps({'ret': ret}).encode('utf-8'))
@@ -68,6 +73,7 @@ def server_loop(self,t):
                 ret = []
                 for i in REGISTERS:
                     ret.append(reg[i])
+                    
                 print('TENET SEND: ',ret)
                 client_socket.send(json.dumps({'ret': ret}).encode('utf-8'))
                 
