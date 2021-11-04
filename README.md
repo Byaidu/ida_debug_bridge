@@ -1,6 +1,6 @@
 # IDA Debug Bridge
 
-IDA Debugger Module to Synchronize Memory and Registers with third-party Backends (Tenet, Unicorn, GDB, etc.)
+IDA Debugger Module to Dynamically Synchronize Memory and Registers with third-party Backends (Tenet, Unicorn, GDB, etc.)
 
 By synchronizing the memory and registers with the IDA database, you can view the status of the program under debugging in the native window, and get a debugging experience seamlessly integrated with IDA.
 
