@@ -7,7 +7,7 @@ static const char wanted_name[] = "IDA Debug Bridge";
 #define DEBUGGER_NAME  "win32"
 #define PROCESSOR_NAME "metapc"
 #define TARGET_PROCESSOR PLFM_386
-#define DEBUGGER_ID    DEBUGGER_ID_X86_IA32_WIN32_USER
+#define DEBUGGER_ID    66
 #define DEBUGGER_FLAGS (DBG_FLAG_EXITSHOTOK   \
                       | DBG_FLAG_LOWCNDS      \
                       | DBG_FLAG_DEBTHREAD    \
