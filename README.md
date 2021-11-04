@@ -87,19 +87,6 @@ import ida_dbg
 ida_dbg.continue_process()
 ```
 
-## Troubleshoot
-
-It is recommended to modify `get_instruction_addresses()` inside `ida_api.py` to workaround the buggy IDA SDK.
-
-```python
-if (self.is_64bit()):
-    if seg.sclass - 1 != ida_segment.SEG_CODE:
-        continue
-else:
-    if seg.sclass != ida_segment.SEG_CODE:
-        continue
-```
-
 ## Protocol
 
 ### Synchronize Registers
