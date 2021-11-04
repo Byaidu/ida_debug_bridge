@@ -80,7 +80,7 @@ import _thread
 _thread.start_new_thread(self.server_loop,(self,))
 ```
 
-Insert the following code to `seek()` inside `reader.py`.
+Insert the following code to `seek()` inside `reader.py` to automatically synchronize data. Or you can manually synchronize data by pressing F9.
 
 ```python
 import ida_dbg
