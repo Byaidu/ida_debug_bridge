@@ -576,7 +576,7 @@ static int g_code = 0;
 void win32_debmod_t::check_thread(bool must_be_main_thread) const
 {
   // TODO
-  LOG_FUNC();
+  //LOG_FUNC();
   // remote debugger uses only one thread
   if ( rpc != NULL )
     return;
@@ -643,7 +643,7 @@ FOUND:
 ssize_t win32_debmod_t::access_memory(eanat_t ea, void *buffer, ssize_t size, bool do_write, bool suspend)
 {
   // TODO
-  LOG_FUNC();
+  //LOG_FUNC();
   if ( process_handle == INVALID_HANDLE_VALUE )
     return -1;
 
@@ -749,7 +749,7 @@ ssize_t win32_debmod_t::access_memory(eanat_t ea, void *buffer, ssize_t size, bo
 //--------------------------------------------------------------------------
 ssize_t win32_debmod_t::_read_memory(eanat_t ea, void *buffer, size_t size, bool suspend)
 {
-  LOG_FUNC();
+  //LOG_FUNC();
   return access_memory(ea, buffer, size, false, suspend);
 }
 
@@ -762,7 +762,7 @@ int index(char c){
 
 ssize_t idaapi win32_debmod_t::dbg_read_memory(ea_t ea, void *buffer, size_t size, qstring * /*errbuf*/)
 {
-  LOG_FUNC();
+  //LOG_FUNC();
   check_thread(false);
   /*
   return _read_memory(ea, buffer, size, true);
@@ -834,7 +834,7 @@ static void _sure_resume_thread(thread_info_t &ti, bool raw = false)
 inline void win32_debmod_t::suspend_all_threads(bool raw)
 {
   // TODO
-  LOG_FUNC();
+  //LOG_FUNC();
   for ( threads_t::iterator p=threads.begin(); p != threads.end(); ++p )
     _sure_suspend_thread(p->second, raw);
 }
@@ -843,7 +843,7 @@ inline void win32_debmod_t::suspend_all_threads(bool raw)
 inline void win32_debmod_t::resume_all_threads(bool raw)
 {
   // TODO
-  LOG_FUNC();
+  //LOG_FUNC();
   for ( threads_t::iterator p=threads.begin(); p != threads.end(); ++p )
     _sure_resume_thread(p->second, raw);
 }
@@ -859,7 +859,7 @@ static int get_thread_suspend_count(HANDLE hThread)
 //--------------------------------------------------------------------------
 inline void win32_debmod_t::suspend_running_threads(threadvec_t &suspended)
 {
-  LOG_FUNC();
+  //LOG_FUNC();
   for ( threads_t::iterator p=threads.begin(); p != threads.end(); ++p )
   {
     thread_info_t t = p->second;
@@ -875,7 +875,7 @@ inline void win32_debmod_t::suspend_running_threads(threadvec_t &suspended)
 //--------------------------------------------------------------------------
 inline void win32_debmod_t::resume_suspended_threads(threadvec_t suspended) const
 {
-  LOG_FUNC();
+  //LOG_FUNC();
   threadvec_t::iterator p;
   for ( p = suspended.begin(); p != suspended.end(); ++p )
     _sure_resume_thread(*p);
@@ -885,7 +885,7 @@ inline void win32_debmod_t::resume_suspended_threads(threadvec_t suspended) cons
 size_t win32_debmod_t::add_dll(image_info_t &ii)
 {
   // TODO
-  LOG_FUNC();
+  //LOG_FUNC();
   dlls.insert(std::make_pair(ii.base, ii));
   dlls_to_import.insert(ii.base);
   return (size_t)ii.imagesize;
@@ -896,7 +896,7 @@ size_t win32_debmod_t::add_dll(image_info_t &ii)
 bool win32_debmod_t::module_present(const char *modname)
 {
   // TODO
-  LOG_FUNC();
+  //LOG_FUNC();
   // host process is not added to dlls, so check it first
   if ( process_path == modname )
     return true;
@@ -916,7 +916,7 @@ bool win32_debmod_t::module_present(const char *modname)
 // until the callback returns != 0
 int win32_debmod_t::for_each_module(DWORD _pid, module_cb_t module_cb, void *ud)
 {
-  LOG_FUNC();
+  //LOG_FUNC();
   int code = 0;
 
   module_snapshot_t msnap(get_tool_help());
@@ -935,7 +935,7 @@ int win32_debmod_t::for_each_module(DWORD _pid, module_cb_t module_cb, void *ud)
 //lint -e{818}
 int win32_debmod_t::get_dmi_cb(debmod_t *sess, MODULEENTRY32 *me32, void *ud)
 {
-  LOG_FUNC();
+  //LOG_FUNC();
   win32_debmod_t *_this = (win32_debmod_t *)sess;
   // if the module name doesn't correspond to the process name,
   // we continue to iterate
@@ -956,7 +956,7 @@ int win32_debmod_t::get_dmi_cb(debmod_t *sess, MODULEENTRY32 *me32, void *ud)
 // Return module information on the currently debugged process
 void win32_debmod_t::get_debugged_module_info(modinfo_t *dmi)
 {
-  LOG_FUNC();
+  //LOG_FUNC();
   dmi->name[0]   = '\0';
   dmi->base      = BADADDR;
   dmi->size      = 0;
@@ -971,7 +971,7 @@ void idaapi win32_debmod_t::dbg_stopped_at_debug_event(
         thread_name_vec_t *thr_names)
 {
   // TODO
-  LOG_FUNC();
+  //LOG_FUNC();
   if ( dlls_added )
   {
     check_thread(true);
@@ -1034,7 +1034,7 @@ static void update_thread_description(thread_info_t &ti)
 void win32_debmod_t::update_thread_names(thread_name_vec_t *thr_names)
 {
   // TODO
-  LOG_FUNC();
+  //LOG_FUNC();
   for ( threads_t::iterator p=threads.begin(); p != threads.end(); ++p )
   {
     thread_info_t &ti = p->second;
@@ -1056,7 +1056,7 @@ ea_t win32_debmod_t::get_dll_export(
         ea_t imagebase,
         const char *exported_name)
 {
-  LOG_FUNC();
+  //LOG_FUNC();
   ea_t ret = BADADDR;
 
   name_info_t ni;
@@ -1070,7 +1070,7 @@ win32_debmod_t::win32_debmod_t()
   : expecting_debug_break(0), stop_at_ntdll_bpts(false)
 {
   // TODO
-  LOG_FUNC();
+  //LOG_FUNC();
   fake_suspend_event = false;
 
   pid = -1;
@@ -1147,7 +1147,7 @@ static void ymm_write(regctx_t *ctx, const regval_t *value, void *user_data)
 void win32_debmod_t::init_reg_ctx(void)
 {
   // TODO
-  LOG_FUNC();
+  //LOG_FUNC();
   reg_ctx = new regctx_t(idaregs, *this);
 
 #ifdef __EA64__
@@ -1244,7 +1244,7 @@ void win32_debmod_t::init_reg_ctx(void)
 void win32_debmod_t::term_reg_ctx(void)
 {
   // TODO
-  LOG_FUNC();
+  //LOG_FUNC();
   _term_reg_ctx();
 }
 
@@ -1273,7 +1273,7 @@ bool win32_debmod_t::get_thread_state(
         int clsmask)
 {
   // TODO
-  LOG_FUNC();
+  //LOG_FUNC();
   thread_info_t *ti = threads.get(tid);
   if ( ti == nullptr || !ti->read_context(out_ctxh, clsmask) )
     return false;
@@ -1380,7 +1380,7 @@ bool win32_debmod_t::set_thread_state(
         int clsmask)
 {
   // TODO
-  LOG_FUNC();
+  //LOG_FUNC();
   thread_info_t *ti = threads.get(tid);
   if ( ti == nullptr )
     return false;
@@ -1481,7 +1481,7 @@ bool win32_debmod_t::set_thread_state(
 // return the handle associated with a thread id from the threads list
 HANDLE win32_debmod_t::get_thread_handle(thid_t tid)
 {
-  LOG_FUNC();
+  //LOG_FUNC();
   thread_info_t *tinfo = threads.get(tid);
   return tinfo == NULL ? INVALID_HANDLE_VALUE : tinfo->hThread;
 }
@@ -1489,7 +1489,7 @@ HANDLE win32_debmod_t::get_thread_handle(thid_t tid)
 //--------------------------------------------------------------------------
 bool win32_debmod_t::refresh_hwbpts(void)
 {
-  LOG_FUNC();
+  //LOG_FUNC();
   for ( threads_t::iterator p=threads.begin(); p != threads.end(); ++p )
     set_hwbpts(p->second.hThread);
   return true;
@@ -1500,7 +1500,7 @@ bool win32_debmod_t::refresh_hwbpts(void)
 int idaapi win32_debmod_t::dbg_del_bpt(bpttype_t type, ea_t ea, const uchar *orig_bytes, int len)
 {
   // TODO
-  LOG_FUNC();
+  //LOG_FUNC();
   check_thread(false);
   if ( orig_bytes != NULL )
   {
@@ -1532,7 +1532,7 @@ int idaapi win32_debmod_t::dbg_del_bpt(bpttype_t type, ea_t ea, const uchar *ori
 ssize_t win32_debmod_t::_write_memory(eanat_t ea, const void *buffer, size_t size, bool suspend)
 {
   // TODO
-  LOG_FUNC();
+  //LOG_FUNC();
   if ( !may_write(ea) )
     return -1;
   return access_memory(ea, (void *)buffer, size, true, suspend);
@@ -1541,7 +1541,7 @@ ssize_t win32_debmod_t::_write_memory(eanat_t ea, const void *buffer, size_t siz
 //--------------------------------------------------------------------------
 void idaapi win32_debmod_t::dbg_term(void)
 {
-  LOG_FUNC();
+  //LOG_FUNC();
   check_thread(true);
   cleanup_hwbpts();
   cleanup();
@@ -1554,7 +1554,7 @@ void idaapi win32_debmod_t::dbg_term(void)
 bool win32_debmod_t::has_bpt_at(ea_t ea)
 {
   // TODO
-  LOG_FUNC();
+  //LOG_FUNC();
   uchar bytes[8];
   int size = bpt_code.size();
   return _read_memory(ea, bytes, size) == size
@@ -1570,7 +1570,7 @@ int idaapi win32_debmod_t::dbg_add_bpt(
         int len)
 {
   // TODO
-  LOG_FUNC();
+  //LOG_FUNC();
   check_thread(false);
   if ( type == BPT_SOFT )
   {
@@ -1606,7 +1606,7 @@ int idaapi win32_debmod_t::dbg_add_bpt(
 drc_t idaapi win32_debmod_t::dbg_get_memory_info(meminfo_vec_t &ranges, qstring * /*errbuf*/)
 {
   // TODO
-  LOG_FUNC();
+  //LOG_FUNC();
   check_thread(false);
   NODISTURB_ASSERT(in_event != NULL);
 
@@ -1638,7 +1638,7 @@ drc_t idaapi win32_debmod_t::dbg_get_memory_info(meminfo_vec_t &ranges, qstring 
 //--------------------------------------------------------------------------
 drc_t idaapi win32_debmod_t::dbg_thread_suspend(thid_t tid)
 {
-  LOG_FUNC();
+  //LOG_FUNC();
   check_thread(false);
   NODISTURB_ASSERT(in_event != NULL);
   int count = SuspendThread(get_thread_handle(tid));
@@ -1654,7 +1654,7 @@ drc_t idaapi win32_debmod_t::dbg_thread_suspend(thid_t tid)
 //--------------------------------------------------------------------------
 drc_t idaapi win32_debmod_t::dbg_thread_continue(thid_t tid)
 {
-  LOG_FUNC();
+  //LOG_FUNC();
   check_thread(false);
   NODISTURB_ASSERT(in_event != NULL);
   int count = ResumeThread(get_thread_handle(tid));
@@ -1752,7 +1752,7 @@ bool thread_info_t::write_context(int clsmask, CONTEXT &ctx)
 //--------------------------------------------------------------------------
 drc_t idaapi win32_debmod_t::dbg_prepare_to_pause_process(qstring * /*errbuf*/)
 {
-  LOG_FUNC();
+  //LOG_FUNC();
   check_thread(false);
   bool ok = true;
   win_tool_help_t *wth = get_tool_help();
@@ -1819,7 +1819,7 @@ static const char *get_range_name(const images_t &images, const range_t *range)
 //--------------------------------------------------------------------------
 void win32_debmod_t::restore_original_bytes(ea_t ea, bool really_restore)
 {
-  LOG_FUNC();
+  //LOG_FUNC();
   bpt_info_t::iterator p = thread_bpts.find(ea);
   QASSERT(1488, p != thread_bpts.end());
   if ( --p->second.count == 0 )
@@ -1839,7 +1839,7 @@ void win32_debmod_t::restore_original_bytes(ea_t ea, bool really_restore)
 // returns: 0-error,1-ok,2-already had bpt, just increased the counter
 int win32_debmod_t::save_original_bytes(ea_t ea)
 {
-  LOG_FUNC();
+  //LOG_FUNC();
   bpt_info_t::iterator p = thread_bpts.find(ea);
   if ( p == thread_bpts.end() )
   {
@@ -1862,7 +1862,7 @@ int win32_debmod_t::save_original_bytes(ea_t ea)
 bool win32_debmod_t::del_thread_bpt(thread_info_t &ti, ea_t ea)
 {
   // TODO
-  LOG_FUNC();
+  //LOG_FUNC();
   if ( ti.bpt_ea == BADADDR )
     return false;
 
@@ -1889,7 +1889,7 @@ bool win32_debmod_t::del_thread_bpt(thread_info_t &ti, ea_t ea)
 bool win32_debmod_t::del_thread_bpts(ea_t ea)
 {
   // TODO
-  LOG_FUNC();
+  //LOG_FUNC();
   bool found = false;
   for ( threads_t::iterator p=threads.begin(); p != threads.end(); ++p )
     found |= del_thread_bpt(p->second, ea);
@@ -1899,7 +1899,7 @@ bool win32_debmod_t::del_thread_bpts(ea_t ea)
 //--------------------------------------------------------------------------
 bool win32_debmod_t::set_thread_bpt(thread_info_t &ti, ea_t ea)
 {
-  LOG_FUNC();
+  //LOG_FUNC();
   // delete old thread bpt if any existed before
   del_thread_bpt(ti, BADADDR);
 
@@ -1928,7 +1928,7 @@ bool win32_debmod_t::set_thread_bpt(thread_info_t &ti, ea_t ea)
 void win32_debmod_t::add_thread(const CREATE_THREAD_DEBUG_INFO &thr_info, thid_t tid)
 {
   // TODO
-  LOG_FUNC();
+  //LOG_FUNC();
   wow64_state_t w = check_wow64_process();
   thread_info_t ti(this, thr_info, tid, w);
   threads.insert(std::make_pair(tid, ti));
@@ -1938,7 +1938,7 @@ void win32_debmod_t::add_thread(const CREATE_THREAD_DEBUG_INFO &thr_info, thid_t
 gdecode_t win32_debmod_t::get_debug_event(debug_event_t *event, int timeout_ms)
 {
   // TODO
-  LOG_FUNC();
+  //LOG_FUNC();
   check_thread(false);
 
   if (exiting){
@@ -2225,7 +2225,7 @@ SILENTLY_RESUME:
 gdecode_t idaapi win32_debmod_t::dbg_get_debug_event(debug_event_t *event, int timeout_ms)
 {
   // TODO
-  LOG_FUNC();
+  //LOG_FUNC();
   check_thread(false);
   gdecode_t gdecode = get_debug_event(event, timeout_ms);
   if ( gdecode >= GDE_ONE_EVENT )
@@ -2241,7 +2241,7 @@ gdecode_t idaapi win32_debmod_t::dbg_get_debug_event(debug_event_t *event, int t
 //--------------------------------------------------------------------------
 bool win32_debmod_t::get_debug_string(const DEBUG_EVENT &ev, char *buf, size_t bufsize)
 {
-  LOG_FUNC();
+  //LOG_FUNC();
   buf[0] = '\0';
   size_t nullsize = ev.u.DebugString.fUnicode ? sizeof(wchar_t) : 1;
   size_t msize = qmin(ev.u.DebugString.nDebugStringLength, bufsize-nullsize);
@@ -2264,7 +2264,7 @@ bool win32_debmod_t::get_debug_string(const DEBUG_EVENT &ev, char *buf, size_t b
 void win32_debmod_t::cleanup()
 {
   // TODO
-  LOG_FUNC();
+  //LOG_FUNC();
   myCloseHandle(redirin_handle);
   myCloseHandle(redirout_handle);
   myCloseHandle(thread_handle);
@@ -2305,7 +2305,7 @@ void win32_debmod_t::cleanup()
 void win32_debmod_t::_term_reg_ctx(void)
 {
   // TODO
-  LOG_FUNC();
+  //LOG_FUNC();
   if ( reg_ctx != nullptr )
   {
     delete reg_ctx;
@@ -2375,7 +2375,7 @@ bool win32_debmod_t::get_filename_for(
         eanat_t image_base)
 {
   // TODO
-  LOG_FUNC();
+  //LOG_FUNC();
   buf[0] = '\0';
   // if we have address of file name in the process image from the debug API, try to use it
   //   remark: depending on the OS, NTDLL.DLL can return an empty string or only the DLL name!
@@ -2435,7 +2435,7 @@ bool win32_debmod_t::get_filename_for(
 //--------------------------------------------------------------------------
 drc_t idaapi win32_debmod_t::dbg_detach_process()
 {
-  LOG_FUNC();
+  //LOG_FUNC();
   check_thread(false);
   if ( in_event != NULL )
     dbg_continue_after_event(in_event);
@@ -2452,7 +2452,7 @@ drc_t idaapi win32_debmod_t::dbg_detach_process()
 void idaapi win32_debmod_t::dbg_set_debugging(bool _debug_debugger)
 {
   // TODO
-  LOG_FUNC();
+  //LOG_FUNC();
   debug_debugger = _debug_debugger;
   debug_debugger = 1;
 }
@@ -2461,7 +2461,7 @@ void idaapi win32_debmod_t::dbg_set_debugging(bool _debug_debugger)
 drc_t idaapi win32_debmod_t::dbg_init(uint32_t *flags2, qstring * /*errbuf*/)
 {
   // TODO
-  LOG_FUNC();
+  //LOG_FUNC();
   check_thread(true);
 
   cleanup();
@@ -2518,7 +2518,7 @@ bool win32_debmod_t::get_filename_from_process(
         size_t bufsize)
 {
   // TODO
-  LOG_FUNC();
+  //LOG_FUNC();
   buf[0] = '\0';
   if ( name_ea == 0 )
     return false;
@@ -2539,7 +2539,7 @@ bool win32_debmod_t::get_filename_from_process(
 ea_t win32_debmod_t::get_region_info(ea_t ea, memory_info_t *mi)
 {
   // TODO
-  LOG_FUNC();
+  //LOG_FUNC();
   // okay to keep static, they won't change between clients
   static DWORD_PTR totalVirtual = 0;
   static DWORD granularity = 0;
@@ -2660,7 +2660,7 @@ ea_t win32_debmod_t::get_region_info(ea_t ea, memory_info_t *mi)
 //--------------------------------------------------------------------------
 drc_t idaapi win32_debmod_t::dbg_attach_process(pid_t _pid, int event_id, int /*flags*/, qstring * /*errbuf*/)
 {
-  LOG_FUNC();
+  //LOG_FUNC();
   check_thread(false);
 #ifndef __EA64__
   int addrsize = get_process_addrsize(_pid);
@@ -2697,7 +2697,7 @@ drc_t idaapi win32_debmod_t::dbg_start_process(
         qstring * /*errbuf*/)
 {
   // TODO
-  LOG_FUNC();
+  //LOG_FUNC();
   /*
   check_thread(false);
   // input file specified in the database does not exist
@@ -2770,7 +2770,7 @@ drc_t idaapi win32_debmod_t::dbg_start_process(
 bool win32_debmod_t::myCloseHandle(HANDLE &h)
 {
   // TODO
-  LOG_FUNC();
+  //LOG_FUNC();
   bool ok = true;
   if ( h != INVALID_HANDLE_VALUE && h != NULL )
   {
@@ -2794,7 +2794,7 @@ bool win32_debmod_t::myCloseHandle(HANDLE &h)
 //--------------------------------------------------------------------------
 void win32_debmod_t::install_callgate_workaround(thread_info_t *ti, const debug_event_t *event)
 {
-  LOG_FUNC();
+  //LOG_FUNC();
   // add a breakpoint after the call statement
   ea_t bpt = event->ea + 7;
   ti->callgate_ea = bpt;
@@ -2813,7 +2813,7 @@ gdecode_t win32_debmod_t::handle_exception(
         bool /*firsttime*/)
 {
   // TODO
-  LOG_FUNC();
+  //LOG_FUNC();
   int code = er.ExceptionCode;
   const exception_info_t *ei = find_exception(code);
 
@@ -3051,7 +3051,7 @@ gdecode_t win32_debmod_t::handle_exception(
 //--------------------------------------------------------------------------
 bool win32_debmod_t::check_for_hwbpt(debug_event_t *event, bool is_stepping)
 {
-  LOG_FUNC();
+  //LOG_FUNC();
   ea_t ea = is_hwbpt_triggered(event->tid, is_stepping);
   if ( ea != BADADDR )
   {
@@ -3067,7 +3067,7 @@ bool win32_debmod_t::check_for_hwbpt(debug_event_t *event, bool is_stepping)
 //--------------------------------------------------------------------------
 void win32_debmod_t::create_attach_event(debug_event_t *event, bool attached)
 {
-  LOG_FUNC();
+  //LOG_FUNC();
   event->set_modinfo(PROCESS_ATTACHED);
   event->handled = true;
   if ( attached )
@@ -3089,7 +3089,7 @@ void win32_debmod_t::create_attach_event(debug_event_t *event, bool attached)
 void win32_debmod_t::create_start_event(debug_event_t *event)
 {
   // TODO
-  LOG_FUNC();
+  //LOG_FUNC();
   modinfo_t &mi_ps = event->set_modinfo(PROCESS_STARTED);
   // ea_t base = EA_T(cpdi.lpBaseOfImage);
 
@@ -3130,7 +3130,7 @@ void win32_debmod_t::create_start_event(debug_event_t *event)
 ea_t win32_debmod_t::get_kernel_bpt_ea(ea_t ea, thid_t tid)
 {
   // TODO
-  LOG_FUNC();
+  //LOG_FUNC();
   if ( is_ida_bpt(ea, tid) )
     return ea;
   return BADADDR;
@@ -3140,7 +3140,7 @@ ea_t win32_debmod_t::get_kernel_bpt_ea(ea_t ea, thid_t tid)
 ssize_t idaapi win32_debmod_t::dbg_write_memory(ea_t ea, const void *buffer, size_t size, qstring * /*errbuf*/)
 {
   // TODO
-  LOG_FUNC();
+  //LOG_FUNC();
   check_thread(false);
   return _write_memory(ea, buffer, size, true);
 }
@@ -3152,7 +3152,7 @@ drc_t idaapi win32_debmod_t::dbg_thread_get_sreg_base(
         int sreg_value,
         qstring * /*errbuf*/)
 {
-  LOG_FUNC();
+  //LOG_FUNC();
   check_thread(false);
   NODISTURB_ASSERT(in_event != NULL);
   HANDLE h = get_thread_handle(tid);
@@ -3231,7 +3231,7 @@ drc_t idaapi win32_debmod_t::dbg_write_register(
         qstring * /*errbuf*/)
 {
   // TODO
-  LOG_FUNC();
+  //LOG_FUNC();
   check_thread(false);
   if ( value == NULL )
     return DRC_FAILED;
@@ -3260,7 +3260,7 @@ bool idaapi win32_debmod_t::write_registers(
         int count,
         const regval_t *values)
 {
-  LOG_FUNC();
+  //LOG_FUNC();
   if ( values == nullptr )
     return false;
 
@@ -3288,7 +3288,7 @@ drc_t idaapi win32_debmod_t::dbg_read_registers(
         regval_t *values,
         qstring * /*errbuf*/)
 {
-  LOG_FUNC();
+  //LOG_FUNC();
   check_thread(false);
   if ( values == nullptr )
     return DRC_FAILED;
@@ -3344,7 +3344,7 @@ bool thread_info_t::toggle_tbit(bool set_tbit)
 drc_t idaapi win32_debmod_t::dbg_set_resume_mode(thid_t tid, resume_mode_t resmod)
 {
   // TODO
-  LOG_FUNC();
+  //LOG_FUNC();
   if ( resmod != RESMOD_INTO )
     return DRC_FAILED; // not supported
 
@@ -3363,7 +3363,7 @@ drc_t idaapi win32_debmod_t::dbg_set_resume_mode(thid_t tid, resume_mode_t resmo
 //--------------------------------------------------------------------------
 bool win32_debmod_t::clear_tbit(thread_info_t &ti)
 {
-  LOG_FUNC();
+  //LOG_FUNC();
   NODISTURB_ASSERT(in_event != NULL);
   bool ok = ti.toggle_tbit(false);
   if ( !ok )
@@ -3375,7 +3375,7 @@ bool win32_debmod_t::clear_tbit(thread_info_t &ti)
 drc_t idaapi win32_debmod_t::dbg_continue_after_event(const debug_event_t *event)
 {
   // TODO
-  LOG_FUNC();
+  //LOG_FUNC();
   /*
   check_thread(false);
   NODISTURB_ASSERT(in_event != NULL || exiting);
@@ -3428,7 +3428,7 @@ drc_t idaapi win32_debmod_t::dbg_continue_after_event(const debug_event_t *event
 //--------------------------------------------------------------------------
 drc_t idaapi win32_debmod_t::dbg_exit_process(qstring * /*errbuf*/)
 {
-  LOG_FUNC();
+  //LOG_FUNC();
   /*
   check_thread(false);
   // WindowsCE sometimes reports failure but terminates the application.
@@ -3457,7 +3457,7 @@ drc_t idaapi win32_debmod_t::dbg_exit_process(qstring * /*errbuf*/)
 //--------------------------------------------------------------------------
 void win32_debmod_t::show_exception_record(const EXCEPTION_RECORD &er, int level)
 {
-  LOG_FUNC();
+  //LOG_FUNC();
   char name[MAXSTR];
   get_exception_name(er.ExceptionCode, name, sizeof(name));
   if ( level > 0 )
@@ -3482,7 +3482,7 @@ void win32_debmod_t::show_exception_record(const EXCEPTION_RECORD &er, int level
 //--------------------------------------------------------------------------
 void win32_debmod_t::show_debug_event(const DEBUG_EVENT &ev)
 {
-  LOG_FUNC();
+  //LOG_FUNC();
   if ( !debug_debugger )
     return;
   dmsg("[%u %d] ", ev.dwProcessId, ev.dwThreadId);
@@ -3573,7 +3573,7 @@ void win32_debmod_t::show_debug_event(const DEBUG_EVENT &ev)
 //--------------------------------------------------------------------------
 int win32_debmod_t::dbg_freeze_threads_except(thid_t tid)
 {
-  LOG_FUNC();
+  //LOG_FUNC();
   for ( threads_t::iterator p=threads.begin(); p != threads.end(); ++p )
     if ( p->first != tid )
       _sure_suspend_thread(p->second, true);
@@ -3583,7 +3583,7 @@ int win32_debmod_t::dbg_freeze_threads_except(thid_t tid)
 //--------------------------------------------------------------------------
 int win32_debmod_t::dbg_thaw_threads_except(thid_t tid)
 {
-  LOG_FUNC();
+  //LOG_FUNC();
   for ( threads_t::iterator p=threads.begin(); p != threads.end(); ++p )
     if ( p->first != tid )
       _sure_resume_thread(p->second, true);
@@ -3595,7 +3595,7 @@ int win32_debmod_t::dbg_thaw_threads_except(thid_t tid)
 // broke, this is the correct place
 bool idaapi win32_debmod_t::dbg_prepare_broken_connection(void)
 {
-  LOG_FUNC();
+  //LOG_FUNC();
   broken_connection = true;
   bool ret = false;
   if ( restore_broken_breakpoints() )
@@ -3634,7 +3634,7 @@ bool idaapi win32_debmod_t::dbg_prepare_broken_connection(void)
 //
 bool idaapi win32_debmod_t::dbg_continue_broken_connection(pid_t _pid)
 {
-  LOG_FUNC();
+  //LOG_FUNC();
   debmod_t::dbg_continue_broken_connection(_pid);
 
   QASSERT(676, broken_event_handle != NULL);
@@ -3663,7 +3663,7 @@ bool idaapi win32_debmod_t::dbg_continue_broken_connection(pid_t _pid)
 //--------------------------------------------------------------------------
 bool win32_debmod_t::reopen_threads(void)
 {
-  LOG_FUNC();
+  //LOG_FUNC();
   if ( _OpenThread == NULL )
     return false;
 
